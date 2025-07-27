@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Project Manager Cosy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(135deg, #2d5016 0%, #3e6b1f 50%, #4a7c59 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Éléments décoratifs */
+        .monstera {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: sway 4s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes sway {
+            0% { transform: rotate(-2deg) translateY(0px); }
+            100% { transform: rotate(2deg) translateY(-5px); }
+        }
+
+        .monstera:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .monstera:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
+        .monstera:nth-child(3) { bottom: 30%; left: 3%; animation-delay: 2s; }
+        .monstera:nth-child(4) { bottom: 10%; right: 5%; animation-delay: 3s; }
+
+        /* Container principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header avec barre de recherche rapide */
+        .header {
+            background: rgba(45, 80, 22, 0.95);
+            border: 3px solid #8fbc8f;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .header h1 {
+            text-align: center;
+            color: #90ee90;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .quick-search {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            background: #2d5016;
+            border: 2px solid #8fbc8f;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+
+        .search-input::placeholder {
+            color: #90ee90;
+        }
+
+        /* Navigation principale */
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: #4a7c59;
+            border: 2px solid #8fbc8f;
+            border-radius: 10px 10px 0 0;
+            color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            background: #5a8c69;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: #90ee90;
+            color: #2d5016;
+            border-bottom: 2px solid #90ee90;
+        }
+
+        /* Contenu principal */
+        .content {
+            background: rgba(45, 80, 22, 0.9);
+            border: 3px solid #8fbc8f;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 500px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card {
+            background: rgba(74, 124, 89, 0.8);
+            border: 2px solid #8fbc8f;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .dashboard-card h3 {
+            color: #90ee90;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-urgent { color: #ff6b6b; }
+        .status-progress { color: #ffd93d; }
+        .status-done { color: #6bcf7f; }
+
+        /* Projets actifs */
+        .project-item {
+            background: rgba(45, 80, 22, 0.9);
+            border: 1px solid #8fbc8f;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            background: rgba(74, 124, 89, 0.9);
+            transform: translateX(5px);
+        }
+
+        .project-name {
+            font-size: 0.7rem;
+            color: #90ee90;
+            margin-bottom: 5px;
+        }
+
+        .project-status {
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
+
+        /* Formulaires rapides */
+        .quick-form {
+            background: rgba(45, 80, 22, 0.8);
+            border: 2px solid #8fbc8f;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .form-input {
+            padding: 8px;
+            background: #2d5016;
+            border: 1px solid #8fbc8f;
+            border-radius: 5px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.7rem;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .form-select {
+            padding: 8px;
+            background: #2d5016;
+            border: 1px solid #8fbc8f;
+            border-radius: 5px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.7rem;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background: #90ee90;
+            color: #2d5016;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #7dd87d;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #4a7c59;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        /* Liste des tâches */
+        .task-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .task-item {
+            background: rgba(45, 80, 22, 0.9);
+            border: 1px solid #8fbc8f;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-checkbox {
+            width: 15px;
+            height: 15px;
+        }
+
+        .task-content {
+            flex: 1;
+            font-size: 0.7rem;
+        }
+
+        .task-project {
+            background: #4a7c59;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+        }
+
+        /* Sauvegarde */
+        .backup-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .backup-card {
+            background: rgba(74, 124, 89, 0.8);
+            border: 2px solid #8fbc8f;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .backup-info {
+            font-size: 0.6rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .tab-btn {
+                font-size: 0.6rem;
+                padding: 8px 12px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Éléments décoratifs -->
+    <div class="monstera">🌿</div>
+    <div class="monstera">🪴</div>
+    <div class="monstera">🌱</div>
+    <div class="monstera">🍃</div>
+
+    <div class="container">
+        <!-- Header avec recherche rapide -->
+        <div class="header">
+            <h1>🌿 PROJECT MANAGER COSY 🌿</h1>
+            <div class="quick-search">
+                <input type="text" class="search-input" placeholder="🔍 Recherche rapide (Ctrl+K)..." id="quickSearch">
+                <button class="btn" onclick="addQuickTask()">⚡ Tâche rapide</button>
+                <button class="btn btn-secondary" onclick="switchProject()">🔄 Projet</button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('dashboard')">🏠 Dashboard</button>
+            <button class="tab-btn" onclick="showTab('projects')">🌱 Projets</button>
+            <button class="tab-btn" onclick="showTab('tasks')">✅ Tâches</button>
+            <button class="tab-btn" onclick="showTab('meetings')">📅 Réunions</button>
+            <button class="tab-btn" onclick="showTab('emails')">📧 Emails</button>
+            <button class="tab-btn" onclick="showTab('backup')">💾 Backup</button>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>🔥 Urgent Aujourd'hui</h3>
+                        <div id="urgentTasks"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>📊 Projets Actifs</h3>
+                        <div id="activeProjects"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>📧 En Attente</h3>
+                        <div id="pendingEmails"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>🎯 Cette Semaine</h3>
+                        <div id="weeklyGoals"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projets -->
+            <div id="projects" class="tab-content">
+                <div class="quick-form">
+                    <h3 style="color: #90ee90; margin-bottom: 10px;">🌱 Nouveau Projet</h3>
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Nom du projet" id="projectName">
+                        <select class="form-select" id="projectType">
+                            <option>Chatbot</option>
+                            <option>Formation</option>
+                            <option>Réunion</option>
+                            <option>Présentation</option>
+                            <option>Procédure</option>
+                        </select>
+                        <button class="btn" onclick="addProject()">➕ Créer</button>
+                    </div>
+                </div>
+                <div id="projectsList"></div>
+            </div>
+
+            <!-- Tâches -->
+            <div id="tasks" class="tab-content">
+                <div class="quick-form">
+                    <h3 style="color: #90ee90; margin-bottom: 10px;">✅ Nouvelle Tâche</h3>
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Description de la tâche" id="taskDescription">
+                        <select class="form-select" id="taskProject">
+                            <option>Général</option>
+                        </select>
+                        <select class="form-select" id="taskPriority">
+                            <option value="low">Faible</option>
+                            <option value="medium">Moyenne</option>
+                            <option value="high">Haute</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <button class="btn" onclick="addTask()">➕ Ajouter</button>
+                    </div>
+                </div>
+                <div class="task-list" id="tasksList"></div>
+            </div>
+
+            <!-- Réunions -->
+            <div id="meetings" class="tab-content">
+                <div class="quick-form">
+                    <h3 style="color: #90ee90; margin-bottom: 10px;">📅 Nouvelle Réunion</h3>
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Sujet de la réunion" id="meetingSubject">
+                        <input type="datetime-local" class="form-input" id="meetingDate">
+                        <input type="text" class="form-input" placeholder="Participants" id="meetingParticipants">
+                        <button class="btn" onclick="addMeeting()">➕ Programmer</button>
+                    </div>
+                </div>
+                <div id="meetingsList"></div>
+            </div>
+
+            <!-- Emails -->
+            <div id="emails" class="tab-content">
+                <div class="quick-form">
+                    <h3 style="color: #90ee90; margin-bottom: 10px;">📧 Email à Envoyer</h3>
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Destinataire" id="emailTo">
+                        <input type="text" class="form-input" placeholder="Sujet" id="emailSubject">
+                        <select class="form-select" id="emailType">
+                            <option>Relance</option>
+                            <option>Information</option>
+                            <option>Confirmation</option>
+                            <option>Convocation</option>
+                        </select>
+                        <button class="btn" onclick="addEmail()">📤 Programmer</button>
+                    </div>
+                </div>
+                <div id="emailsList"></div>
+            </div>
+
+            <!-- Backup -->
+            <div id="backup" class="tab-content">
+                <div class="backup-section">
+                    <div class="backup-card">
+                        <h3 style="color: #90ee90; margin-bottom: 10px;">💾 Export</h3>
+                        <button class="btn" onclick="exportData('json')">📄 Export JSON</button>
+                        <button class="btn" onclick="exportData('csv')" style="margin-left: 10px;">📊 Export CSV</button>
+                        <div class="backup-info">Sauvegarde complète de toutes vos données</div>
+                    </div>
+                    <div class="backup-card">
+                        <h3 style="color: #90ee90; margin-bottom: 10px;">📂 Import</h3>
+                        <input type="file" id="importFile" accept=".json" style="margin-bottom: 10px;">
+                        <button class="btn btn-secondary" onclick="importData()">🔄 Restaurer</button>
+                        <div class="backup-info">Restaurer à partir d'une sauvegarde</div>
+                    </div>
+                    <div class="backup-card">
+                        <h3 style="color: #90ee90; margin-bottom: 10px;">⚡ Auto-save</h3>
+                        <div style="font-size: 0.7rem;">
+                            Dernière sauvegarde:<br>
+                            <span id="lastSave">Jamais</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="clearAllData()" style="margin-top: 10px;">🧹 Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let appData = {
+            projects: [],
+            tasks: [],
+            meetings: [],
+            emails: [],
+            settings: {}
+        };
+
+        // Interface management
+        function showTab(tabName) {
+            // Cacher tous les contenus
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Activer le contenu et bouton sélectionné
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Rafraîchir le contenu
+            refreshContent(tabName);
+        }
+
+        // Ajout rapide de tâche
+        function addQuickTask() {
+            const task = prompt("🚀 Tâche rapide:");
+            if (task) {
+                appData.tasks.push({
+                    id: Date.now(),
+                    description: task,
+                    project: 'Général',
+                    priority: 'medium',
+                    completed: false,
+                    created: new Date().toISOString()
+                });
+                saveData();
+                refreshContent('dashboard');
+            }
+        }
+
+        // Switch projet rapide
+        function switchProject() {
+            if (appData.projects.length === 0) {
+                alert("Aucun projet créé !");
+                return;
+            }
+            
+            const projectNames = appData.projects.map(p => p.name);
+            const selected = prompt("Projets:\n" + projectNames.join("\n") + "\n\nNom du projet:");
+            
+            if (selected && projectNames.includes(selected)) {
+                // Logique pour switcher vers le projet
+                alert("🌱 Basculé vers: " + selected);
+            }
+        }
+
+        // Gestion des projets
+        function addProject() {
+            const name = document.getElementById('projectName').value;
+            const type = document.getElementById('projectType').value;
+            
+            if (!name) return;
+            
+            const project = {
+                id: Date.now(),
+                name: name,
+                type: type,
+                status: 'active',
+                created: new Date().toISOString(),
+                tasks: []
+            };
+            
+            appData.projects.push(project);
+            document.getElementById('projectName').value = '';
+            updateProjectSelects();
+            saveData();
+            refreshContent('projects');
+        }
+
+        // Gestion des tâches
+        function addTask() {
+            const description = document.getElementById('taskDescription').value;
+            const project = document.getElementById('taskProject').value;
+            const priority = document.getElementById('taskPriority').value;
+            
+            if (!description) return;
+            
+            const task = {
+                id: Date.now(),
+                description: description,
+                project: project,
+                priority: priority,
+                completed: false,
+                created: new Date().toISOString()
+            };
+            
+            appData.tasks.push(task);
+            document.getElementById('taskDescription').value = '';
+            saveData();
+            refreshContent('tasks');
+            refreshContent('dashboard');
+        }
+
+        // Gestion des réunions
+        function addMeeting() {
+            const subject = document.getElementById('meetingSubject').value;
+            const date = document.getElementById('meetingDate').value;
+            const participants = document.getElementById('meetingParticipants').value;
+            
+            if (!subject || !date) return;
+            
+            const meeting = {
+                id: Date.now(),
+                subject: subject,
+                date: date,
+                participants: participants.split(',').map(p => p.trim()),
+                status: 'planned',
+                created: new Date().toISOString()
+            };
+            
+            appData.meetings.push(meeting);
+            document.getElementById('meetingSubject').value = '';
+            document.getElementById('meetingDate').value = '';
+            document.getElementById('meetingParticipants').value = '';
+            saveData();
+            refreshContent('meetings');
+        }
+
+        // Gestion des emails
+        function addEmail() {
+            const to = document.getElementById('emailTo').value;
+            const subject = document.getElementById('emailSubject').value;
+            const type = document.getElementById('emailType').value;
+            
+            if (!to || !subject) return;
+            
+            const email = {
+                id: Date.now(),
+                to: to,
+                subject: subject,
+                type: type,
+                status: 'to_send',
+                created: new Date().toISOString()
+            };
+            
+            appData.emails.push(email);
+            document.getElementById('emailTo').value = '';
+            document.getElementById('emailSubject').value = '';
+            saveData();
+            refreshContent('emails');
+        }
+
+        // Mise à jour des selects de projets
+        function updateProjectSelects() {
+            const selects = document.querySelectorAll('#taskProject');
+            selects.forEach(select => {
+                select.innerHTML = '<option>Général</option>';
+                appData.projects.forEach(project => {
+                    select.innerHTML += `<option value="${project.name}">${project.name}</option>`;
+                });
+            });
+        }
+
+        // Rafraîchissement du contenu
+        function refreshContent(tab) {
+            switch(tab) {
+                case 'dashboard':
+                    refreshDashboard();
+                    break;
+                case 'projects':
+                    refreshProjects();
+                    break;
+                case 'tasks':
+                    refreshTasks();
+                    break;
+                case 'meetings':
+                    refreshMeetings();
+                    break;
+                case 'emails':
+                    refreshEmails();
+                    break;
+            }
+        }
+
+        function refreshDashboard() {
+            // Tâches urgentes
+            const urgentTasks = appData.tasks.filter(t => !t.completed && t.priority === 'urgent');
+            document.getElementById('urgentTasks').innerHTML = urgentTasks.length === 0 ? 
+                '<div style="opacity: 0.7;">Aucune tâche urgente 🎉</div>' :
+                urgentTasks.map(t => `<div class="status-urgent">⚡ ${t.description}</div>`).join('');
+
+            // Projets actifs
+            const activeProjects = appData.projects.filter(p => p.status === 'active');
+            document.getElementById('activeProjects').innerHTML = activeProjects.length === 0 ?
+                '<div style="opacity: 0.7;">Aucun projet actif</div>' :
+                activeProjects.map(p => `<div class="project-item"><div class="project-name">${p.name}</div><div class="project-status">${p.type}</div></div>`).join('');
+
+            // Emails en attente
+            const pendingEmails = appData.emails.filter(e => e.status === 'to_send');
+            document.getElementById('pendingEmails').innerHTML = pendingEmails.length === 0 ?
+                '<div style="opacity: 0.7;">Aucun email en attente</div>' :
+                pendingEmails.map(e => `<div class="status-progress">📧 ${e.subject}</div>`).join('');
+
+            // Objectifs de la semaine
+            const weeklyTasks = appData.tasks.filter(t => !t.completed).slice(0, 5);
+            document.getElementById('weeklyGoals').innerHTML = weeklyTasks.length === 0 ?
+                '<div style="opacity: 0.7;">Aucune tâche</div>' :
+                weeklyTasks.map(t => `<div>🎯 ${t.description}</div>`).join('');
+        }
+
+        function refreshProjects() {
+            const projectsList = document.getElementById('projectsList');
+            if (appData.projects.length === 0) {
+                projectsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun projet créé</div>';
+                return;
+            }
+
+            projectsList.innerHTML = appData.projects.map(project => `
+                <div class="project-item">
+                    <div class="project-name">${project.name}</div>
+                    <div class="project-status">${project.type} - ${project.status}</div>
+                    <div style="margin-top: 10px;">
+                        <button class="btn btn-secondary" onclick="editProject(${project.id})">✏️ Éditer</button>
+                        <button class="btn btn-danger" onclick="deleteProject(${project.id})">🗑️ Supprimer</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function refreshTasks() {
+            const tasksList = document.getElementById('tasksList');
+            if (appData.tasks.length === 0) {
+                tasksList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucune tâche créée</div>';
+                return;
+            }
+
+            tasksList.innerHTML = appData.tasks.map(task => `
+                <div class="task-item ${task.completed ? 'completed' : ''}">
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask(${task.id})">
+                    <div class="task-content">
+                        <div style="color: ${getPriorityColor(task.priority)}">${task.description}</div>
+                        <div class="task-project">${task.project}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteTask(${task.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function refreshMeetings() {
+            const meetingsList = document.getElementById('meetingsList');
+            if (appData.meetings.length === 0) {
+                meetingsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucune réunion programmée</div>';
+                return;
+            }
+
+            meetingsList.innerHTML = appData.meetings.map(meeting => `
+                <div class="task-item">
+                    <div class="task-content">
+                        <div style="color: #90ee90">${meeting.subject}</div>
+                        <div style="font-size: 0.6rem; opacity: 0.8;">${new Date(meeting.date).toLocaleString()}</div>
+                        <div style="font-size: 0.6rem;">👥 ${meeting.participants.join(', ')}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteMeeting(${meeting.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function refreshEmails() {
+            const emailsList = document.getElementById('emailsList');
+            if (appData.emails.length === 0) {
+                emailsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun email programmé</div>';
+                return;
+            }
+
+            emailsList.innerHTML = appData.emails.map(email => `
+                <div class="task-item">
+                    <div class="task-content">
+                        <div style="color: #90ee90">${email.subject}</div>
+                        <div style="font-size: 0.6rem; opacity: 0.8;">À: ${email.to}</div>
+                        <div class="task-project">${email.type}</div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="markEmailSent(${email.id})">✅ Envoyé</button>
+                    <button class="btn btn-danger" onclick="deleteEmail(${email.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        // Fonctions utilitaires
+        function getPriorityColor(priority) {
+            switch(priority) {
+                case 'urgent': return '#ff6b6b';
+                case 'high': return '#ffd93d';
+                case 'medium': return '#90ee90';
+                case 'low': return '#87ceeb';
+                default: return '#90ee90';
+            }
+        }
+
+        // Actions sur les tâches
+        function toggleTask(taskId) {
+            const task = appData.tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                saveData();
+                refreshContent('tasks');
+                refreshContent('dashboard');
+            }
+        }
+
+        function deleteTask(taskId) {
+            if (confirm('Supprimer cette tâche ?')) {
+                appData.tasks = appData.tasks.filter(t => t.id !== taskId);
+                saveData();
+                refreshContent('tasks');
+                refreshContent('dashboard');
+            }
+        }
+
+        // Actions sur les projets
+        function editProject(projectId) {
+            const project = appData.projects.find(p => p.id === projectId);
+            if (project) {
+                const newName = prompt('Nouveau nom:', project.name);
+                if (newName) {
+                    project.name = newName;
+                    saveData();
+                    refreshContent('projects');
+                    updateProjectSelects();
+                }
+            }
+        }
+
+        function deleteProject(projectId) {
+            if (confirm('Supprimer ce projet ? (Les tâches associées seront conservées)')) {
+                appData.projects = appData.projects.filter(p => p.id !== projectId);
+                saveData();
+                refreshContent('projects');
+                updateProjectSelects();
+            }
+        }
+
+        // Actions sur les réunions
+        function deleteMeeting(meetingId) {
+            if (confirm('Supprimer cette réunion ?')) {
+                appData.meetings = appData.meetings.filter(m => m.id !== meetingId);
+                saveData();
+                refreshContent('meetings');
+            }
+        }
+
+        // Actions sur les emails
+        function markEmailSent(emailId) {
+            const email = appData.emails.find(e => e.id === emailId);
+            if (email) {
+                email.status = 'sent';
+                email.sentDate = new Date().toISOString();
+                saveData();
+                refreshContent('emails');
+                refreshContent('dashboard');
+            }
+        }
+
+        function deleteEmail(emailId) {
+            if (confirm('Supprimer cet email ?')) {
+                appData.emails = appData.emails.filter(e => e.id !== emailId);
+                saveData();
+                refreshContent('emails');
+                refreshContent('dashboard');
+            }
+        }
+
+        // Sauvegarde et chargement des données
+        function saveData() {
+            try {
+                const dataToSave = {
+                    ...appData,
+                    lastSave: new Date().toISOString()
+                };
+                window.localStorage.setItem('cosyProjectManager', JSON.stringify(dataToSave));
+                updateLastSaveTime();
+            } catch (e) {
+                console.error('Erreur sauvegarde:', e);
+                alert('Erreur lors de la sauvegarde !');
+            }
+        }
+
+        function loadData() {
+            try {
+                const saved = window.localStorage.getItem('cosyProjectManager');
+                if (saved) {
+                    const parsedData = JSON.parse(saved);
+                    appData = {
+                        projects: parsedData.projects || [],
+                        tasks: parsedData.tasks || [],
+                        meetings: parsedData.meetings || [],
+                        emails: parsedData.emails || [],
+                        settings: parsedData.settings || {}
+                    };
+                    updateLastSaveTime(parsedData.lastSave);
+                    updateProjectSelects();
+                    refreshContent('dashboard');
+                }
+            } catch (e) {
+                console.error('Erreur chargement:', e);
+                alert('Erreur lors du chargement des données !');
+            }
+        }
+
+        function updateLastSaveTime(saveTime) {
+            const lastSaveElement = document.getElementById('lastSave');
+            if (lastSaveElement) {
+                if (saveTime) {
+                    const date = new Date(saveTime);
+                    lastSaveElement.textContent = date.toLocaleString();
+                } else {
+                    lastSaveElement.textContent = 'Jamais';
+                }
+            }
+        }
+
+        // Export/Import des données
+        function exportData(format) {
+            try {
+                const exportData = {
+                    ...appData,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+
+                if (format === 'json') {
+                    const dataStr = JSON.stringify(exportData, null, 2);
+                    downloadFile(dataStr, 'project-manager-backup.json', 'application/json');
+                } else if (format === 'csv') {
+                    const csvData = convertToCSV(exportData);
+                    downloadFile(csvData, 'project-manager-backup.csv', 'text/csv');
+                }
+                
+                alert('🎉 Export réussi !');
+            } catch (e) {
+                console.error('Erreur export:', e);
+                alert('Erreur lors de l\'export !');
+            }
+        }
+
+        function convertToCSV(data) {
+            let csv = '';
+            
+            // Export des projets
+            csv += 'TYPE,ID,NOM,DESCRIPTION,DATE,STATUT,PRIORITE,PROJET\n';
+            
+            data.projects.forEach(project => {
+                csv += `PROJET,${project.id},"${project.name}","${project.type}","${project.created}","${project.status}",,\n`;
+            });
+            
+            data.tasks.forEach(task => {
+                csv += `TACHE,${task.id},"${task.description}","","${task.created}","${task.completed ? 'TERMINE' : 'EN_COURS'}","${task.priority}","${task.project}"\n`;
+            });
+            
+            data.meetings.forEach(meeting => {
+                csv += `REUNION,${meeting.id},"${meeting.subject}","${meeting.participants.join(';')}","${meeting.date}","${meeting.status}",,\n`;
+            });
+            
+            data.emails.forEach(email => {
+                csv += `EMAIL,${email.id},"${email.subject}","${email.to}","${email.created}","${email.status}","${email.type}",\n`;
+            });
+            
+            return csv;
+        }
+
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function importData() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Veuillez sélectionner un fichier !');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (confirm('⚠️ Cette action va remplacer toutes vos données actuelles. Continuer ?')) {
+                        appData = {
+                            projects: importedData.projects || [],
+                            tasks: importedData.tasks || [],
+                            meetings: importedData.meetings || [],
+                            emails: importedData.emails || [],
+                            settings: importedData.settings || {}
+                        };
+                        
+                        saveData();
+                        updateProjectSelects();
+                        refreshContent('dashboard');
+                        refreshContent('projects');
+                        refreshContent('tasks');
+                        refreshContent('meetings');
+                        refreshContent('emails');
+                        
+                        alert('🎉 Import réussi !');
+                        fileInput.value = '';
+                    }
+                } catch (e) {
+                    console.error('Erreur import:', e);
+                    alert('Erreur lors de l\'import ! Vérifiez le format du fichier.');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ ATTENTION ! Cette action va supprimer TOUTES vos données. Êtes-vous sûr ?')) {
+                if (confirm('🚨 DERNIÈRE CHANCE ! Toutes vos données seront perdues définitivement !')) {
+                    window.localStorage.removeItem('cosyProjectManager');
+                    appData = {
+                        projects: [],
+                        tasks: [],
+                        meetings: [],
+                        emails: [],
+                        settings: {}
+                    };
+                    
+                    updateProjectSelects();
+                    refreshContent('dashboard');
+                    refreshContent('projects');
+                    refreshContent('tasks');
+                    refreshContent('meetings');
+                    refreshContent('emails');
+                    updateLastSaveTime();
+                    
+                    alert('🧹 Toutes les données ont été supprimées !');
+                }
+            }
+        }
+
+        // Recherche rapide
+        function setupQuickSearch() {
+            const searchInput = document.getElementById('quickSearch');
+            
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performQuickSearch(this.value);
+                }
+            });
+            
+            // Raccourci Ctrl+K
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+
+        function performQuickSearch(query) {
+            if (!query.trim()) return;
+            
+            const results = [];
+            query = query.toLowerCase();
+            
+            // Recherche dans les projets
+            appData.projects.forEach(project => {
+                if (project.name.toLowerCase().includes(query) || project.type.toLowerCase().includes(query)) {
+                    results.push(`🌱 Projet: ${project.name}`);
+                }
+            });
+            
+            // Recherche dans les tâches
+            appData.tasks.forEach(task => {
+                if (task.description.toLowerCase().includes(query) || task.project.toLowerCase().includes(query)) {
+                    results.push(`✅ Tâche: ${task.description}`);
+                }
+            });
+            
+            // Recherche dans les réunions
+            appData.meetings.forEach(meeting => {
+                if (meeting.subject.toLowerCase().includes(query)) {
+                    results.push(`📅 Réunion: ${meeting.subject}`);
+                }
+            });
+            
+            // Recherche dans les emails
+            appData.emails.forEach(email => {
+                if (email.subject.toLowerCase().includes(query) || email.to.toLowerCase().includes(query)) {
+                    results.push(`📧 Email: ${email.subject}`);
+                }
+            });
+            
+            if (results.length > 0) {
+                alert('🔍 Résultats de recherche:\n\n' + results.join('\n'));
+            } else {
+                alert('🤷‍♂️ Aucun résultat trouvé pour: ' + query);
+            }
+        }
+
+        // Auto-sauvegarde
+        function setupAutoSave() {
+            setInterval(() => {
+                if (Object.keys(appData).length > 0) {
+                    saveData();
+                }
+            }, 300000); // Auto-save toutes les 5 minutes
+        }
+
+        // Initialisation de l'application
+        function initApp() {
+            console.log('🌿 Initialisation Project Manager Cosy...');
+            
+            loadData();
+            setupQuickSearch();
+            setupAutoSave();
+            updateProjectSelects();
+            refreshContent('dashboard');
+            
+            console.log('✅ Application prête !');
+        }
+
+        // Démarrage de l'application
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Exemples de données par défaut (commenté pour la production)
+        /*
+        function loadSampleData() {
+            appData = {
+                projects: [
+                    { id: 1, name: 'Chatbot RH', type: 'Chatbot', status: 'active', created: new Date().toISOString() },
+                    { id: 2, name: 'Formation Teams', type: 'Formation', status: 'active', created: new Date().toISOString() }
+                ],
+                tasks: [
+                    { id: 1, description: 'Finaliser présentation chatbot', project: 'Chatbot RH', priority: 'urgent', completed: false, created: new Date().toISOString() },
+                    { id: 2, description: 'Préparer slides formation', project: 'Formation Teams', priority: 'high', completed: false, created: new Date().toISOString() }
+                ],
+                meetings: [
+                    { id: 1, subject: 'Réunion directeurs', date: new Date().toISOString(), participants: ['Directeur 1', 'Directeur 2'], status: 'planned', created: new Date().toISOString() }
+                ],
+                emails: [
+                    { id: 1, to: 'directeur@company.com', subject: 'Confirmation réunion', type: 'Confirmation', status: 'to_send', created: new Date().toISOString() }
+                ],
+                settings: {}
+            };
+            saveData();
+        }
+        */
+    </script>
+</body>
+</html>
