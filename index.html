@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌿 Project Manager Cosy</title>
+    <title>🌿 Dashboard VadHor - Serre Tropicale</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -14,32 +14,99 @@
         }
 
         body {
-            font-family: 'Press Start 2P', monospace;
-            background: linear-gradient(135deg, #2d5016 0%, #3e6b1f 50%, #4a7c59 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: 
+                linear-gradient(135deg, rgba(30, 74, 50, 0.95) 0%, rgba(45, 95, 67, 0.92) 30%, rgba(58, 115, 86, 0.9) 60%, rgba(139, 90, 60, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Éléments décoratifs */
+        /* Effets de serre tropicale avec images overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(255,255,255,0.08) 0%, transparent 20%),
+                radial-gradient(circle at 85% 70%, rgba(255,255,255,0.06) 0%, transparent 25%),
+                radial-gradient(circle at 50% 10%, rgba(168, 230, 207, 0.04) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: 0;
+            animation: humidity 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes humidity {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.08), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(168, 230, 207, 0.08), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.06), transparent);
+            background-repeat: repeat;
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: 0;
+            animation: dewDrops 15s ease-in-out infinite;
+        }
+
+        @keyframes dewDrops {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Éléments décoratifs de serre tropicale */
         .monstera {
             position: absolute;
-            font-size: 2rem;
-            opacity: 0.3;
-            animation: sway 4s ease-in-out infinite alternate;
-            z-index: 0;
+            font-size: 3.5rem;
+            opacity: 0.15;
+            animation: tropicalSway 8s ease-in-out infinite alternate;
+            z-index: 1;
+            filter: drop-shadow(0 0 15px rgba(168, 230, 207, 0.2));
+            user-select: none;
+            pointer-events: none;
         }
 
-        @keyframes sway {
-            0% { transform: rotate(-2deg) translateY(0px); }
-            100% { transform: rotate(2deg) translateY(-5px); }
+        @keyframes tropicalSway {
+            0% { 
+                transform: rotate(-4deg) translateY(0px) scale(1); 
+                opacity: 0.12;
+            }
+            50% { 
+                transform: rotate(0deg) translateY(-5px) scale(1.02); 
+                opacity: 0.18;
+            }
+            100% { 
+                transform: rotate(4deg) translateY(-12px) scale(1.05); 
+                opacity: 0.15;
+            }
         }
 
-        .monstera:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-        .monstera:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
-        .monstera:nth-child(3) { bottom: 30%; left: 3%; animation-delay: 2s; }
-        .monstera:nth-child(4) { bottom: 10%; right: 5%; animation-delay: 3s; }
+        .monstera:nth-child(1) { top: 5%; left: 2%; animation-delay: 0s; }
+        .monstera:nth-child(2) { top: 12%; right: 5%; animation-delay: 3s; }
+        .monstera:nth-child(3) { bottom: 20%; left: 1%; animation-delay: 6s; }
+        .monstera:nth-child(4) { bottom: 5%; right: 3%; animation-delay: 2s; }
+        .monstera:nth-child(5) { top: 40%; left: 0%; animation-delay: 4s; }
+        .monstera:nth-child(6) { top: 55%; right: 1%; animation-delay: 7s; }
+        .monstera:nth-child(7) { top: 70%; left: 2%; animation-delay: 1s; }
+        .monstera:nth-child(8) { bottom: 35%; right: 0%; animation-delay: 5s; }
 
         /* Container principal */
         .container {
@@ -52,83 +119,143 @@
 
         /* Header avec barre de recherche rapide */
         .header {
-            background: rgba(45, 80, 22, 0.95);
-            border: 3px solid #8fbc8f;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.4);
+            background: rgba(30, 74, 50, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.15);
         }
 
         .header h1 {
             text-align: center;
-            color: #90ee90;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            background: linear-gradient(135deg, #a8e6cf, #d4b896, #f4e4bc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Inter', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .header h1::after {
+            content: '🌿 Serre Tropicale de Productivité 🪴';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            color: rgba(255,255,255,0.7);
+            white-space: nowrap;
         }
 
         .quick-search {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .search-input {
             flex: 1;
-            padding: 10px;
-            background: #2d5016;
-            border: 2px solid #8fbc8f;
-            border-radius: 8px;
+            min-width: 250px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
             color: #fff;
             font-family: inherit;
-            font-size: 0.8rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #a8e6cf;
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 0 25px rgba(168, 230, 207, 0.3);
         }
 
         .search-input::placeholder {
-            color: #90ee90;
+            color: rgba(255,255,255,0.6);
         }
 
         /* Navigation principale */
         .nav-tabs {
             display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .tab-btn {
-            padding: 12px 20px;
-            background: #4a7c59;
-            border: 2px solid #8fbc8f;
-            border-radius: 10px 10px 0 0;
-            color: #fff;
+            padding: 16px 26px;
+            background: rgba(74, 155, 142, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 18px;
+            color: rgba(255,255,255,0.9);
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
         }
 
         .tab-btn:hover {
-            background: #5a8c69;
-            transform: translateY(-2px);
+            background: rgba(74, 155, 142, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
         .tab-btn.active {
-            background: #90ee90;
-            color: #2d5016;
-            border-bottom: 2px solid #90ee90;
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            color: #1a4b3a;
+            border-color: #a8e6cf;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(168, 230, 207, 0.4);
         }
 
         /* Contenu principal */
         .content {
-            background: rgba(45, 80, 22, 0.9);
-            border: 3px solid #8fbc8f;
-            border-radius: 15px;
-            padding: 20px;
-            min-height: 500px;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
+            background: rgba(30, 74, 50, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 25px;
+            padding: 35px;
+            min-height: 600px;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.15);
         }
 
         .tab-content {
@@ -137,265 +264,683 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Dashboard */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .dashboard-card {
-            background: rgba(74, 124, 89, 0.8);
-            border: 2px solid #8fbc8f;
-            border-radius: 10px;
-            padding: 15px;
+            background: rgba(168, 230, 207, 0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 25px;
             position: relative;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #a8e6cf, #7fcdcd);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
 
         .dashboard-card h3 {
-            color: #90ee90;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .status-urgent { color: #ff6b6b; }
-        .status-progress { color: #ffd93d; }
-        .status-done { color: #6bcf7f; }
-
-        /* Projets actifs */
-        .project-item {
-            background: rgba(45, 80, 22, 0.9);
-            border: 1px solid #8fbc8f;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
+        /* Boutons modernisés */
+        .btn {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            color: #1a4b3a;
+            border: none;
+            border-radius: 15px;
             cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .project-item:hover {
-            background: rgba(74, 124, 89, 0.9);
-            transform: translateX(5px);
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
         }
 
-        .project-name {
-            font-size: 0.7rem;
-            color: #90ee90;
-            margin-bottom: 5px;
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
-        .project-status {
-            font-size: 0.6rem;
-            opacity: 0.8;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.4);
         }
 
-        /* Formulaires rapides */
+        .btn-secondary {
+            background: linear-gradient(135deg, #4a9b8e, #2d6854);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px rgba(74, 155, 142, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff9999, #ff7777);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(255, 153, 153, 0.4);
+        }
+
+        /* Formulaires */
         .quick-form {
-            background: rgba(45, 80, 22, 0.8);
-            border: 2px solid #8fbc8f;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
+            background: rgba(168, 230, 207, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
         }
 
         .form-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 15px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
-        .form-input {
-            padding: 8px;
-            background: #2d5016;
-            border: 1px solid #8fbc8f;
-            border-radius: 5px;
+        .form-input, .form-select {
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
             color: #fff;
             font-family: inherit;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             flex: 1;
-            min-width: 150px;
-        }
-
-        .form-select {
-            padding: 8px;
-            background: #2d5016;
-            border: 1px solid #8fbc8f;
-            border-radius: 5px;
-            color: #fff;
-            font-family: inherit;
-            font-size: 0.7rem;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            background: #90ee90;
-            color: #2d5016;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.7rem;
+            min-width: 180px;
             transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background: #7dd87d;
-            transform: translateY(-2px);
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #a8e6cf;
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.3);
         }
 
-        .btn-secondary {
-            background: #4a7c59;
-            color: #fff;
+        .form-input::placeholder {
+            color: rgba(255,255,255,0.6);
         }
 
-        .btn-danger {
-            background: #ff6b6b;
-            color: #fff;
+        /* Projets avec système de plantes */
+        .project-item {
+            background: rgba(168, 230, 207, 0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Liste des tâches */
+        .project-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #a8e6cf, #7fcdcd);
+            transition: width 0.3s ease;
+        }
+
+        .project-item:hover {
+            background: rgba(168, 230, 207, 0.2);
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .project-item:hover::before {
+            width: 10px;
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 15px;
+        }
+
+        .project-plant {
+            font-size: 2.5rem;
+            animation: plantGrow 2s ease-in-out;
+        }
+
+        @keyframes plantGrow {
+            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 0.8; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .project-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a8e6cf;
+            margin-bottom: 5px;
+        }
+
+        .project-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .project-progress {
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #a8e6cf, #7fcdcd);
+            border-radius: 4px;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progressShimmer 2.5s infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Tâches */
         .task-list {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
+            padding-right: 10px;
         }
 
         .task-item {
-            background: rgba(45, 80, 22, 0.9);
-            border: 1px solid #8fbc8f;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
+            background: rgba(168, 230, 207, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(168, 230, 207, 0.18);
+            transform: translateX(5px);
         }
 
         .task-checkbox {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: #a8e6cf;
         }
 
         .task-content {
             flex: 1;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
         }
 
         .task-project {
-            background: #4a7c59;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.6rem;
+            background: rgba(74, 155, 142, 0.8);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            display: inline-block;
         }
 
-        /* Sauvegarde */
-        .backup-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+        /* Interface Assistant IA */
+        .ai-container {
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            background: rgba(168, 230, 207, 0.08);
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .backup-card {
-            background: rgba(74, 124, 89, 0.8);
-            border: 2px solid #8fbc8f;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
+        .ai-chat-header {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            background: rgba(168, 230, 207, 0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .backup-info {
-            font-size: 0.6rem;
+        .ai-avatar {
+            font-size: 2.8rem;
+            margin-right: 18px;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-6px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        .ai-info h3 {
+            color: #a8e6cf;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .ai-status {
+            font-size: 0.9rem;
             opacity: 0.8;
-            margin-top: 10px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .ai-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.12);
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .ai-chat-window {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .ai-welcome {
+            text-align: center;
+            padding: 50px 25px;
+        }
+
+        .ai-welcome-icon {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            animation: gentleSway 4s ease-in-out infinite;
+        }
+
+        .ai-welcome h4 {
+            color: #a8e6cf;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .ai-welcome p {
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ai-suggestions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .suggestion-title {
+            font-size: 0.95rem;
+            color: #d4b896;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .suggestion-btn {
+            background: rgba(168, 230, 207, 0.12);
+            border: 1px solid rgba(168, 230, 207, 0.3);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: rgba(255,255,255,0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .suggestion-btn:hover {
+            background: rgba(168, 230, 207, 0.25);
+            transform: translateX(8px);
+            border-color: rgba(168, 230, 207, 0.5);
+        }
+
+        .ai-input-area {
+            padding: 25px;
+            background: rgba(168, 230, 207, 0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .ai-input-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 18px 24px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 30px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .ai-input:focus {
+            outline: none;
+            border-color: #a8e6cf;
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 0 25px rgba(168, 230, 207, 0.3);
+        }
+
+        .ai-send-btn {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.4);
+        }
+
+        .send-icon {
+            font-size: 1.3rem;
+        }
+
+        /* Messages de chat */
+        .ai-message {
+            margin-bottom: 25px;
+            animation: messageSlideIn 0.5s ease;
+        }
+
+        .user-message {
+            background: rgba(168, 230, 207, 0.25);
+            border-radius: 20px 20px 8px 20px;
+            padding: 15px 20px;
+            margin-left: 80px;
+            margin-bottom: 12px;
+        }
+
+        .ai-response {
+            background: rgba(255,255,255,0.12);
+            border-radius: 20px 20px 20px 8px;
+            padding: 18px 22px;
+            margin-right: 80px;
+            position: relative;
+        }
+
+        .ai-response::before {
+            content: '🤖';
+            position: absolute;
+            left: -50px;
+            top: 12px;
+            font-size: 1.8rem;
+        }
+
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header h1::after {
+                font-size: 0.8rem;
+                bottom: -25px;
+            }
+            
             .nav-tabs {
                 justify-content: center;
             }
             
             .tab-btn {
-                font-size: 0.6rem;
-                padding: 8px 12px;
+                font-size: 0.8rem;
+                padding: 12px 18px;
             }
             
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .quick-search {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: rgba(168, 230, 207, 0.95);
+            color: #1a4b3a;
+            padding: 18px 24px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 1000;
+            max-width: 350px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .status-urgent { 
+            color: #ff9999; 
+            text-shadow: 0 0 10px rgba(255, 153, 153, 0.5);
+        }
+        .status-progress { 
+            color: #ffd93d; 
+            text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+        }
+        .status-done { 
+            color: #a8e6cf; 
+            text-shadow: 0 0 10px rgba(168, 230, 207, 0.5);
         }
     </style>
 </head>
 <body>
-    <!-- Éléments décoratifs -->
+    <!-- Éléments décoratifs de serre tropicale -->
     <div class="monstera">🌿</div>
     <div class="monstera">🪴</div>
     <div class="monstera">🌱</div>
     <div class="monstera">🍃</div>
+    <div class="monstera">🌺</div>
+    <div class="monstera">🌸</div>
+    <div class="monstera">🌴</div>
+    <div class="monstera">🥥</div>
 
     <div class="container">
         <!-- Header avec recherche rapide -->
         <div class="header">
-            <h1>🌿 PROJECT MANAGER COSY 🌿</h1>
+            <h1>DASHBOARD - VadHor</h1>
             <div class="quick-search">
-                <input type="text" class="search-input" placeholder="🔍 Recherche rapide (Ctrl+K)..." id="quickSearch">
-                <button class="btn" onclick="addQuickTask()">⚡ Tâche rapide</button>
-                <button class="btn btn-secondary" onclick="switchProject()">🔄 Projet</button>
+                <input type="text" class="search-input" placeholder="🔍 Recherche dans votre serre (Ctrl+K)..." id="quickSearch">
+                <button class="btn" onclick="addQuickTask()">⚡ Arrosage rapide</button>
+                <button class="btn btn-secondary" onclick="switchProject()">🔄 Changer de plante</button>
+                <button class="btn btn-secondary" onclick="toggleFocusMode()">🧘 Mode Focus</button>
             </div>
         </div>
 
         <!-- Navigation -->
         <div class="nav-tabs">
-            <button class="tab-btn active" onclick="showTab('dashboard')">🏠 Dashboard</button>
-            <button class="tab-btn" onclick="showTab('projects')">🌱 Projets</button>
-            <button class="tab-btn" onclick="showTab('tasks')">✅ Tâches</button>
-            <button class="tab-btn" onclick="showTab('meetings')">📅 Réunions</button>
-            <button class="tab-btn" onclick="showTab('emails')">📧 Emails</button>
-            <button class="tab-btn" onclick="showTab('backup')">💾 Backup</button>
+            <button class="tab-btn active" onclick="showTab('dashboard')">🏠 Serre</button>
+            <button class="tab-btn" onclick="showTab('projects')">🌱 Plantations</button>
+            <button class="tab-btn" onclick="showTab('tasks')">✅ Entretien</button>
+            <button class="tab-btn" onclick="showTab('meetings')">📅 Rendez-vous</button>
+            <button class="tab-btn" onclick="showTab('emails')">📧 Messages</button>
+            <button class="tab-btn" onclick="showTab('ai')">🤖 Assistant</button>
+            <button class="tab-btn" onclick="showTab('analytics')">📊 Croissance</button>
+            <button class="tab-btn" onclick="showTab('collaboration')">🤝 Équipe</button>
+            <button class="tab-btn" onclick="showTab('backup')">💾 Archives</button>
         </div>
 
         <!-- Contenu principal -->
         <div class="content">
-            <!-- Dashboard -->
+            <!-- Serre (Dashboard) -->
             <div id="dashboard" class="tab-content active">
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
                         <h3>🔥 Urgent Aujourd'hui</h3>
-                        <div id="urgentTasks"></div>
+                        <div id="urgentTasks">
+                            <div style="opacity: 0.7;">Aucune tâche urgente 🎉</div>
+                        </div>
                     </div>
                     <div class="dashboard-card">
-                        <h3>📊 Projets Actifs</h3>
-                        <div id="activeProjects"></div>
+                        <h3>🌱 Plantations Actives</h3>
+                        <div id="activeProjects">
+                            <div style="opacity: 0.7;">🌱 Aucun projet en croissance</div>
+                        </div>
                     </div>
                     <div class="dashboard-card">
-                        <h3>📧 En Attente</h3>
-                        <div id="pendingEmails"></div>
+                        <h3>📧 En Attente d'Arrosage</h3>
+                        <div id="pendingEmails">
+                            <div style="opacity: 0.7;">Aucun email en attente</div>
+                        </div>
                     </div>
                     <div class="dashboard-card">
-                        <h3>🎯 Cette Semaine</h3>
-                        <div id="weeklyGoals"></div>
+                        <h3>🎯 Objectifs de la Semaine</h3>
+                        <div id="weeklyGoals">
+                            <div style="opacity: 0.7;">Aucune tâche</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>🤖 Assistant Jardinier</h3>
+                        <div id="aiSuggestions">
+                            <div style="opacity: 0.8; font-size: 0.9rem;">
+                                💡 "Votre serre semble calme aujourd'hui"<br><br>
+                                🌿 "Parfait moment pour planter de nouveaux projets"
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>📊 Croissance du Jour</h3>
+                        <div id="dailyProgress">
+                            <div style="font-size: 0.9rem;">
+                                📈 Productivité: <span style="color: #a8e6cf;">En attente</span><br>
+                                ⏰ Temps focus: <span style="color: #d4b896;">0h 00min</span><br>
+                                ✅ Tâches: <span style="color: #a8e6cf;">0/0</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Projets -->
+            <!-- Plantations (Projets) -->
             <div id="projects" class="tab-content">
                 <div class="quick-form">
-                    <h3 style="color: #90ee90; margin-bottom: 10px;">🌱 Nouveau Projet</h3>
+                    <h3 style="color: #a8e6cf; margin-bottom: 15px;">🌱 Nouvelle Plantation</h3>
                     <div class="form-row">
-                        <input type="text" class="form-input" placeholder="Nom du projet" id="projectName">
+                        <input type="text" class="form-input" placeholder="Nom de la plantation" id="projectName">
                         <select class="form-select" id="projectType">
                             <option>Chatbot</option>
                             <option>Formation</option>
@@ -403,16 +948,24 @@
                             <option>Présentation</option>
                             <option>Procédure</option>
                         </select>
-                        <button class="btn" onclick="addProject()">➕ Créer</button>
+                        <select class="form-select" id="projectPriority">
+                            <option value="low">Croissance lente</option>
+                            <option value="medium">Croissance normale</option>
+                            <option value="high">Croissance rapide</option>
+                            <option value="urgent">Needs water NOW!</option>
+                        </select>
+                        <button class="btn" onclick="addProject()">🌱 Planter</button>
                     </div>
                 </div>
-                <div id="projectsList"></div>
+                <div id="projectsList">
+                    <div style="text-align: center; opacity: 0.7; padding: 40px; font-size: 1.1rem;">🌱 Aucun projet planté dans votre jardin</div>
+                </div>
             </div>
 
-            <!-- Tâches -->
+            <!-- Entretien (Tâches) -->
             <div id="tasks" class="tab-content">
                 <div class="quick-form">
-                    <h3 style="color: #90ee90; margin-bottom: 10px;">✅ Nouvelle Tâche</h3>
+                    <h3 style="color: #a8e6cf; margin-bottom: 15px;">✅ Nouvelle Tâche d'Entretien</h3>
                     <div class="form-row">
                         <input type="text" class="form-input" placeholder="Description de la tâche" id="taskDescription">
                         <select class="form-select" id="taskProject">
@@ -427,27 +980,31 @@
                         <button class="btn" onclick="addTask()">➕ Ajouter</button>
                     </div>
                 </div>
-                <div class="task-list" id="tasksList"></div>
+                <div class="task-list" id="tasksList">
+                    <div style="text-align: center; opacity: 0.7; padding: 40px;">Aucune tâche créée</div>
+                </div>
             </div>
 
-            <!-- Réunions -->
+            <!-- Rendez-vous (Réunions) -->
             <div id="meetings" class="tab-content">
                 <div class="quick-form">
-                    <h3 style="color: #90ee90; margin-bottom: 10px;">📅 Nouvelle Réunion</h3>
+                    <h3 style="color: #a8e6cf; margin-bottom: 15px;">📅 Nouveau Rendez-vous</h3>
                     <div class="form-row">
-                        <input type="text" class="form-input" placeholder="Sujet de la réunion" id="meetingSubject">
+                        <input type="text" class="form-input" placeholder="Sujet du rendez-vous" id="meetingSubject">
                         <input type="datetime-local" class="form-input" id="meetingDate">
                         <input type="text" class="form-input" placeholder="Participants" id="meetingParticipants">
                         <button class="btn" onclick="addMeeting()">➕ Programmer</button>
                     </div>
                 </div>
-                <div id="meetingsList"></div>
+                <div id="meetingsList">
+                    <div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun rendez-vous programmé</div>
+                </div>
             </div>
 
-            <!-- Emails -->
+            <!-- Messages (Emails) -->
             <div id="emails" class="tab-content">
                 <div class="quick-form">
-                    <h3 style="color: #90ee90; margin-bottom: 10px;">📧 Email à Envoyer</h3>
+                    <h3 style="color: #a8e6cf; margin-bottom: 15px;">📧 Message à Envoyer</h3>
                     <div class="form-row">
                         <input type="text" class="form-input" placeholder="Destinataire" id="emailTo">
                         <input type="text" class="form-input" placeholder="Sujet" id="emailSubject">
@@ -460,31 +1017,128 @@
                         <button class="btn" onclick="addEmail()">📤 Programmer</button>
                     </div>
                 </div>
-                <div id="emailsList"></div>
+                <div id="emailsList">
+                    <div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun message programmé</div>
+                </div>
             </div>
 
-            <!-- Backup -->
-            <div id="backup" class="tab-content">
-                <div class="backup-section">
-                    <div class="backup-card">
-                        <h3 style="color: #90ee90; margin-bottom: 10px;">💾 Export</h3>
-                        <button class="btn" onclick="exportData('json')">📄 Export JSON</button>
-                        <button class="btn" onclick="exportData('csv')" style="margin-left: 10px;">📊 Export CSV</button>
-                        <div class="backup-info">Sauvegarde complète de toutes vos données</div>
-                    </div>
-                    <div class="backup-card">
-                        <h3 style="color: #90ee90; margin-bottom: 10px;">📂 Import</h3>
-                        <input type="file" id="importFile" accept=".json" style="margin-bottom: 10px;">
-                        <button class="btn btn-secondary" onclick="importData()">🔄 Restaurer</button>
-                        <div class="backup-info">Restaurer à partir d'une sauvegarde</div>
-                    </div>
-                    <div class="backup-card">
-                        <h3 style="color: #90ee90; margin-bottom: 10px;">⚡ Auto-save</h3>
-                        <div style="font-size: 0.7rem;">
-                            Dernière sauvegarde:<br>
-                            <span id="lastSave">Jamais</span>
+            <!-- Assistant IA -->
+            <div id="ai" class="tab-content">
+                <div class="ai-container">
+                    <div class="ai-chat-header">
+                        <div class="ai-avatar">🤖</div>
+                        <div class="ai-info">
+                            <h3>Assistant Jardinier VadHor</h3>
+                            <div class="ai-status">🟢 En ligne • Prêt à vous conseiller</div>
                         </div>
-                        <button class="btn btn-secondary" onclick="clearAllData()" style="margin-top: 10px;">🧹 Reset</button>
+                        <div class="ai-actions">
+                            <button class="btn-icon" onclick="clearAIHistory()" title="Effacer l'historique">🧹</button>
+                            <button class="btn-icon" onclick="exportAISession()" title="Exporter la session">📥</button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-window" id="aiChatWindow">
+                        <div class="ai-welcome">
+                            <div class="ai-welcome-icon">🌿</div>
+                            <h4>Bonjour ! Je suis votre assistant jardinier personnel</h4>
+                            <p>Posez-moi vos questions sur la gestion de vos projets, l'organisation de vos tâches, ou demandez-moi des conseils pour optimiser votre productivité !</p>
+                            
+                            <div class="ai-suggestions">
+                                <div class="suggestion-title">💡 Essayez ces questions :</div>
+                                <button class="suggestion-btn" onclick="askPredefined('Que dois-je faire aujourd\'hui ?')">Que dois-je faire aujourd'hui ?</button>
+                                <button class="suggestion-btn" onclick="askPredefined('Comment organiser ma semaine ?')">Comment organiser ma semaine ?</button>
+                                <button class="suggestion-btn" onclick="askPredefined('Quels projets nécessitent mon attention ?')">Quels projets nécessitent mon attention ?</button>
+                                <button class="suggestion-btn" onclick="askPredefined('Comment améliorer ma productivité ?')">Comment améliorer ma productivité ?</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-input-area">
+                        <div class="ai-input-container">
+                            <input type="text" class="ai-input" placeholder="Tapez votre question ici..." id="aiInput" onkeypress="handleAIEnter(event)">
+                            <button class="ai-send-btn" onclick="askAI()">
+                                <span class="send-icon">📤</span>
+                            </button>
+                        </div>
+                        <div style="font-size: 0.8rem; opacity: 0.7; color: #d4b896;">
+                            💡 Astuce : Soyez spécifique pour des conseils plus pertinents
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div id="analytics" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>📊 Aperçu de Croissance</h3>
+                        <div style="font-size: 0.9rem; margin-top: 15px;">
+                            🌱 Projets actifs: <span style="color: #a8e6cf;">0</span><br>
+                            ✅ Tâches terminées: <span style="color: #a8e6cf;">0</span><br>
+                            📧 Messages traités: <span style="color: #a8e6cf;">0</span><br>
+                            ⏰ Temps productif: <span style="color: #d4b896;">0h</span>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>📅 Prochaines Étapes</h3>
+                        <div style="font-size: 0.9rem;">
+                            💡 Commencez par créer votre premier projet<br><br>
+                            🌱 Ajoutez quelques tâches pour voir votre progression<br><br>
+                            📊 Vos statistiques apparaîtront ici automatiquement
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collaboration -->
+            <div id="collaboration" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>👥 Équipe de Jardinage</h3>
+                        <div style="margin-top: 15px; opacity: 0.7;">
+                            🌿 Fonctionnalité en développement<br><br>
+                            Bientôt : collaboration en temps réel, partage de projets, chat d'équipe...
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>🔗 Partage de Serre</h3>
+                        <div style="margin-top: 15px; opacity: 0.7;">
+                            🚀 À venir : liens de partage sécurisés, invitations d'équipe, synchronisation...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Archives (Backup) -->
+            <div id="backup" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>💾 Export de votre Serre</h3>
+                        <button class="btn" onclick="exportData('json')" style="width: 100%; margin-bottom: 10px;">📄 Export JSON</button>
+                        <button class="btn" onclick="exportData('csv')" style="width: 100%;">📊 Export CSV</button>
+                        <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 15px;">
+                            Sauvegarde complète de toutes vos plantations et données
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>📂 Import dans votre Serre</h3>
+                        <input type="file" id="importFile" accept=".json" style="margin-bottom: 15px; color: #a8e6cf;">
+                        <button class="btn btn-secondary" onclick="importData()" style="width: 100%;">🔄 Restaurer</button>
+                        <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 15px;">
+                            Restaurer à partir d'une sauvegarde précédente
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3>⚡ Sauvegarde Automatique</h3>
+                        <div style="font-size: 0.9rem;">
+                            Dernière sauvegarde:<br>
+                            <span id="lastSave" style="color: #a8e6cf;">Jamais</span>
+                        </div>
+                        <button class="btn btn-danger" onclick="clearAllData()" style="width: 100%; margin-top: 15px;">🧹 Nettoyer la Serre</button>
                     </div>
                 </div>
             </div>
@@ -535,39 +1189,117 @@
                 });
                 saveData();
                 refreshContent('dashboard');
+                showNotification(`🌱 Tâche ajoutée: ${task}`);
             }
         }
 
         // Switch projet rapide
         function switchProject() {
             if (appData.projects.length === 0) {
-                alert("Aucun projet créé !");
+                showNotification("🌱 Aucun projet planté ! Créez votre première plantation.");
                 return;
             }
             
             const projectNames = appData.projects.map(p => p.name);
-            const selected = prompt("Projets:\n" + projectNames.join("\n") + "\n\nNom du projet:");
+            const selected = prompt("Projets disponibles:\n" + projectNames.join("\n") + "\n\nNom du projet:");
             
             if (selected && projectNames.includes(selected)) {
-                // Logique pour switcher vers le projet
-                alert("🌱 Basculé vers: " + selected);
+                showNotification(`🌱 Basculé vers: ${selected}`);
             }
         }
 
-        // Gestion des projets
+        // Mode Focus
+        let focusMode = false;
+        function toggleFocusMode() {
+            focusMode = !focusMode;
+            const btn = event.target;
+            
+            if (focusMode) {
+                btn.textContent = '🧘 Focus ON';
+                btn.style.background = 'linear-gradient(135deg, #a8e6cf, #7fcdcd)';
+                document.body.style.filter = 'contrast(1.1) brightness(0.9)';
+                
+                // Masquer les éléments distracteurs
+                document.querySelectorAll('.monstera').forEach(el => {
+                    el.style.opacity = '0.03';
+                });
+                
+                showNotification('🧘 Mode Focus activé - Concentrez-vous sur vos plantations !');
+            } else {
+                btn.textContent = '🧘 Mode Focus';
+                btn.style.background = '';
+                document.body.style.filter = '';
+                
+                document.querySelectorAll('.monstera').forEach(el => {
+                    el.style.opacity = '';
+                });
+                
+                showNotification('🌿 Mode Focus désactivé - Votre serre reprend vie !');
+            }
+        }
+
+        // Système de notifications
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = message;
+            notification.style.animation = 'slideInRight 0.4s ease';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.4s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 4000);
+        }
+
+        // Gestion des projets avec système de plantes
+        function getProjectPlant(project) {
+            const progress = getProjectProgress(project);
+            
+            // Évolution selon le progrès
+            if (progress < 25) {
+                return '🌱'; // Jeune pousse
+            } else if (progress < 50) {
+                return '🌿'; // Petite plante
+            } else if (progress < 75) {
+                return '🪴'; // Plante en pot
+            } else if (progress < 100) {
+                return '🌳'; // Arbre qui pousse
+            } else {
+                return '🌺'; // Plante fleurie (terminée)
+            }
+        }
+
+        function getProjectProgress(project) {
+            const projectTasks = appData.tasks.filter(t => t.project === project.name);
+            if (projectTasks.length === 0) return 15; // Progrès initial
+            
+            const completedTasks = projectTasks.filter(t => t.completed).length;
+            return Math.round((completedTasks / projectTasks.length) * 100);
+        }
+
         function addProject() {
             const name = document.getElementById('projectName').value;
             const type = document.getElementById('projectType').value;
+            const priority = document.getElementById('projectPriority').value;
             
-            if (!name) return;
+            if (!name) {
+                showNotification("🌱 Veuillez donner un nom à votre plantation");
+                return;
+            }
             
             const project = {
                 id: Date.now(),
                 name: name,
                 type: type,
+                priority: priority,
                 status: 'active',
-                created: new Date().toISOString(),
-                tasks: []
+                created: new Date().toISOString()
             };
             
             appData.projects.push(project);
@@ -575,6 +1307,7 @@
             updateProjectSelects();
             saveData();
             refreshContent('projects');
+            showNotification(`🌱 Plantation "${name}" créée avec succès !`);
         }
 
         // Gestion des tâches
@@ -583,7 +1316,10 @@
             const project = document.getElementById('taskProject').value;
             const priority = document.getElementById('taskPriority').value;
             
-            if (!description) return;
+            if (!description) {
+                showNotification("✅ Veuillez décrire la tâche d'entretien");
+                return;
+            }
             
             const task = {
                 id: Date.now(),
@@ -599,6 +1335,7 @@
             saveData();
             refreshContent('tasks');
             refreshContent('dashboard');
+            showNotification(`✅ Tâche d'entretien ajoutée`);
         }
 
         // Gestion des réunions
@@ -607,7 +1344,10 @@
             const date = document.getElementById('meetingDate').value;
             const participants = document.getElementById('meetingParticipants').value;
             
-            if (!subject || !date) return;
+            if (!subject || !date) {
+                showNotification("📅 Veuillez remplir le sujet et la date");
+                return;
+            }
             
             const meeting = {
                 id: Date.now(),
@@ -624,6 +1364,7 @@
             document.getElementById('meetingParticipants').value = '';
             saveData();
             refreshContent('meetings');
+            showNotification(`📅 Rendez-vous "${subject}" programmé`);
         }
 
         // Gestion des emails
@@ -632,7 +1373,10 @@
             const subject = document.getElementById('emailSubject').value;
             const type = document.getElementById('emailType').value;
             
-            if (!to || !subject) return;
+            if (!to || !subject) {
+                showNotification("📧 Veuillez remplir le destinataire et le sujet");
+                return;
+            }
             
             const email = {
                 id: Date.now(),
@@ -648,6 +1392,178 @@
             document.getElementById('emailSubject').value = '';
             saveData();
             refreshContent('emails');
+            showNotification(`📧 Message programmé pour ${to}`);
+        }
+
+        // Actions sur les tâches
+        function toggleTask(taskId) {
+            const task = appData.tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                saveData();
+                refreshContent('tasks');
+                refreshContent('dashboard');
+                const status = task.completed ? 'terminée' : 'réactivée';
+                showNotification(`✅ Tâche ${status}`);
+            }
+        }
+
+        function deleteTask(taskId) {
+            if (confirm('Supprimer cette tâche ?')) {
+                appData.tasks = appData.tasks.filter(t => t.id !== taskId);
+                saveData();
+                refreshContent('tasks');
+                refreshContent('dashboard');
+                showNotification('🗑️ Tâche supprimée');
+            }
+        }
+
+        function deleteProject(projectId) {
+            if (confirm('Supprimer ce projet ? (Les tâches associées seront conservées)')) {
+                appData.projects = appData.projects.filter(p => p.id !== projectId);
+                saveData();
+                refreshContent('projects');
+                updateProjectSelects();
+                showNotification('🗑️ Projet supprimé');
+            }
+        }
+
+        function deleteMeeting(meetingId) {
+            if (confirm('Supprimer ce rendez-vous ?')) {
+                appData.meetings = appData.meetings.filter(m => m.id !== meetingId);
+                saveData();
+                refreshContent('meetings');
+                showNotification('🗑️ Rendez-vous supprimé');
+            }
+        }
+
+        function deleteEmail(emailId) {
+            if (confirm('Supprimer ce message ?')) {
+                appData.emails = appData.emails.filter(e => e.id !== emailId);
+                saveData();
+                refreshContent('emails');
+                refreshContent('dashboard');
+                showNotification('🗑️ Message supprimé');
+            }
+        }
+
+        function markEmailSent(emailId) {
+            const email = appData.emails.find(e => e.id === emailId);
+            if (email) {
+                email.status = 'sent';
+                email.sentDate = new Date().toISOString();
+                saveData();
+                refreshContent('emails');
+                refreshContent('dashboard');
+                showNotification('📧 Message marqué comme envoyé');
+            }
+        }
+
+        // Assistant IA avec interface améliorée
+        function askAI() {
+            const input = document.getElementById('aiInput').value;
+            const chatWindow = document.getElementById('aiChatWindow');
+            
+            if (!input.trim()) return;
+            
+            // Effacer le message de bienvenue s'il existe
+            const welcome = chatWindow.querySelector('.ai-welcome');
+            if (welcome) {
+                welcome.remove();
+            }
+            
+            // Ajouter le message utilisateur
+            const userMessage = document.createElement('div');
+            userMessage.className = 'ai-message';
+            userMessage.innerHTML = `
+                <div class="user-message">
+                    <strong>Vous :</strong> ${input}
+                </div>
+            `;
+            chatWindow.appendChild(userMessage);
+            
+            // Simulation de réponse IA avec délai réaliste
+            const thinkingMessage = document.createElement('div');
+            thinkingMessage.className = 'ai-message';
+            thinkingMessage.innerHTML = `
+                <div class="ai-response">
+                    <div style="opacity: 0.7; font-style: italic;">🤔 L'assistant réfléchit...</div>
+                </div>
+            `;
+            chatWindow.appendChild(thinkingMessage);
+            
+            // Faire défiler vers le bas
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            
+            setTimeout(() => {
+                // Supprimer le message "réfléchit"
+                thinkingMessage.remove();
+                
+                // Générer la réponse
+                const suggestions = [
+                    `🌱 Pour "${input}", je suggère de commencer par organiser vos tâches par priorité. Votre serre semble bien entretenue !`,
+                    `💡 Basé sur votre rythme, vous êtes plus productif le matin. Planifiez "${input}" entre 9h et 11h pour de meilleurs résultats.`,
+                    `🔄 J'ai remarqué des patterns similaires dans vos projets précédents. Cette approche a bien fonctionné la dernière fois.`,
+                    `⏰ Pour optimiser "${input}", je recommande de bloquer 2h en mode focus et de déléguer les tâches secondaires.`,
+                    `🌿 Votre serre de productivité montre que vous excellez dans ce type de tâche. Continuez sur cette lancée !`,
+                    `📊 D'après vos habitudes, cette tâche prendra environ 1h30. Prévoyez une pause après pour rester efficace.`
+                ];
+                
+                const response = suggestions[Math.floor(Math.random() * suggestions.length)];
+                
+                // Ajouter la réponse IA
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'ai-message';
+                aiMessage.innerHTML = `
+                    <div class="ai-response">
+                        <strong>🤖 Assistant VadHor :</strong><br><br>
+                        ${response}
+                    </div>
+                `;
+                chatWindow.appendChild(aiMessage);
+                
+                // Faire défiler vers le bas
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+                
+            }, 1800); // Délai pour simuler la réflexion
+            
+            // Vider le champ de saisie
+            document.getElementById('aiInput').value = '';
+        }
+
+        function askPredefined(question) {
+            document.getElementById('aiInput').value = question;
+            askAI();
+        }
+
+        function handleAIEnter(event) {
+            if (event.key === 'Enter') {
+                askAI();
+            }
+        }
+
+        function clearAIHistory() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            chatWindow.innerHTML = `
+                <div class="ai-welcome">
+                    <div class="ai-welcome-icon">🌿</div>
+                    <h4>Historique effacé ! Comment puis-je vous aider ?</h4>
+                    <p>Posez-moi vos questions sur la gestion de vos projets, l'organisation de vos tâches, ou demandez-moi des conseils pour optimiser votre productivité !</p>
+                    
+                    <div class="ai-suggestions">
+                        <div class="suggestion-title">💡 Essayez ces questions :</div>
+                        <button class="suggestion-btn" onclick="askPredefined('Que dois-je faire aujourd\'hui ?')">Que dois-je faire aujourd'hui ?</button>
+                        <button class="suggestion-btn" onclick="askPredefined('Comment organiser ma semaine ?')">Comment organiser ma semaine ?</button>
+                        <button class="suggestion-btn" onclick="askPredefined('Quels projets nécessitent mon attention ?')">Quels projets nécessitent mon attention ?</button>
+                        <button class="suggestion-btn" onclick="askPredefined('Comment améliorer ma productivité ?')">Comment améliorer ma productivité ?</button>
+                    </div>
+                </div>
+            `;
+            showNotification('🧹 Historique de conversation effacé');
+        }
+
+        function exportAISession() {
+            showNotification('📥 Export en cours...');
         }
 
         // Mise à jour des selects de projets
@@ -689,16 +1605,30 @@
                 '<div style="opacity: 0.7;">Aucune tâche urgente 🎉</div>' :
                 urgentTasks.map(t => `<div class="status-urgent">⚡ ${t.description}</div>`).join('');
 
-            // Projets actifs
+            // Projets actifs avec plantes
             const activeProjects = appData.projects.filter(p => p.status === 'active');
             document.getElementById('activeProjects').innerHTML = activeProjects.length === 0 ?
-                '<div style="opacity: 0.7;">Aucun projet actif</div>' :
-                activeProjects.map(p => `<div class="project-item"><div class="project-name">${p.name}</div><div class="project-status">${p.type}</div></div>`).join('');
+                '<div style="opacity: 0.7;">🌱 Aucun projet en croissance</div>' :
+                activeProjects.map(p => {
+                    const plant = getProjectPlant(p);
+                    const progress = getProjectProgress(p);
+                    return `
+                        <div class="project-item" style="margin-bottom: 8px; padding: 12px;">
+                            <div class="project-header" style="margin-bottom: 8px;">
+                                <div class="project-plant" style="font-size: 1.5rem;">${plant}</div>
+                                <div>
+                                    <div class="project-name" style="font-size: 0.9rem;">${p.name}</div>
+                                    <div class="project-status" style="font-size: 0.8rem;">${progress}% • ${p.type}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
             // Emails en attente
             const pendingEmails = appData.emails.filter(e => e.status === 'to_send');
             document.getElementById('pendingEmails').innerHTML = pendingEmails.length === 0 ?
-                '<div style="opacity: 0.7;">Aucun email en attente</div>' :
+                '<div style="opacity: 0.7;">Aucun message en attente</div>' :
                 pendingEmails.map(e => `<div class="status-progress">📧 ${e.subject}</div>`).join('');
 
             // Objectifs de la semaine
@@ -711,20 +1641,36 @@
         function refreshProjects() {
             const projectsList = document.getElementById('projectsList');
             if (appData.projects.length === 0) {
-                projectsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun projet créé</div>';
+                projectsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px; font-size: 1.1rem;">🌱 Aucun projet planté dans votre jardin</div>';
                 return;
             }
 
-            projectsList.innerHTML = appData.projects.map(project => `
+            projectsList.innerHTML = appData.projects.map(project => {
+                const progress = getProjectProgress(project);
+                const plant = getProjectPlant(project);
+                
+                return `
                 <div class="project-item">
-                    <div class="project-name">${project.name}</div>
-                    <div class="project-status">${project.type} - ${project.status}</div>
-                    <div style="margin-top: 10px;">
+                    <div class="project-header">
+                        <div class="project-plant">${plant}</div>
+                        <div>
+                            <div class="project-name">${project.name}</div>
+                            <div class="project-status">${project.type} • ${project.status}</div>
+                        </div>
+                    </div>
+                    <div class="project-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;">${progress}% complet</div>
+                    </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
                         <button class="btn btn-secondary" onclick="editProject(${project.id})">✏️ Éditer</button>
                         <button class="btn btn-danger" onclick="deleteProject(${project.id})">🗑️ Supprimer</button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function refreshTasks() {
@@ -735,7 +1681,7 @@
             }
 
             tasksList.innerHTML = appData.tasks.map(task => `
-                <div class="task-item ${task.completed ? 'completed' : ''}">
+                <div class="task-item">
                     <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
                            onchange="toggleTask(${task.id})">
                     <div class="task-content">
@@ -750,16 +1696,16 @@
         function refreshMeetings() {
             const meetingsList = document.getElementById('meetingsList');
             if (appData.meetings.length === 0) {
-                meetingsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucune réunion programmée</div>';
+                meetingsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun rendez-vous programmé</div>';
                 return;
             }
 
             meetingsList.innerHTML = appData.meetings.map(meeting => `
                 <div class="task-item">
                     <div class="task-content">
-                        <div style="color: #90ee90">${meeting.subject}</div>
-                        <div style="font-size: 0.6rem; opacity: 0.8;">${new Date(meeting.date).toLocaleString()}</div>
-                        <div style="font-size: 0.6rem;">👥 ${meeting.participants.join(', ')}</div>
+                        <div style="color: #a8e6cf">${meeting.subject}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">${new Date(meeting.date).toLocaleString()}</div>
+                        <div style="font-size: 0.8rem;">👥 ${meeting.participants.join(', ')}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteMeeting(${meeting.id})">🗑️</button>
                 </div>
@@ -769,15 +1715,15 @@
         function refreshEmails() {
             const emailsList = document.getElementById('emailsList');
             if (appData.emails.length === 0) {
-                emailsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun email programmé</div>';
+                emailsList.innerHTML = '<div style="text-align: center; opacity: 0.7; padding: 40px;">Aucun message programmé</div>';
                 return;
             }
 
             emailsList.innerHTML = appData.emails.map(email => `
                 <div class="task-item">
                     <div class="task-content">
-                        <div style="color: #90ee90">${email.subject}</div>
-                        <div style="font-size: 0.6rem; opacity: 0.8;">À: ${email.to}</div>
+                        <div style="color: #a8e6cf">${email.subject}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">À: ${email.to}</div>
                         <div class="task-project">${email.type}</div>
                     </div>
                     <button class="btn btn-secondary" onclick="markEmailSent(${email.id})">✅ Envoyé</button>
@@ -786,87 +1732,13 @@
             `).join('');
         }
 
-        // Fonctions utilitaires
         function getPriorityColor(priority) {
             switch(priority) {
-                case 'urgent': return '#ff6b6b';
+                case 'urgent': return '#ff9999';
                 case 'high': return '#ffd93d';
-                case 'medium': return '#90ee90';
+                case 'medium': return '#a8e6cf';
                 case 'low': return '#87ceeb';
-                default: return '#90ee90';
-            }
-        }
-
-        // Actions sur les tâches
-        function toggleTask(taskId) {
-            const task = appData.tasks.find(t => t.id === taskId);
-            if (task) {
-                task.completed = !task.completed;
-                saveData();
-                refreshContent('tasks');
-                refreshContent('dashboard');
-            }
-        }
-
-        function deleteTask(taskId) {
-            if (confirm('Supprimer cette tâche ?')) {
-                appData.tasks = appData.tasks.filter(t => t.id !== taskId);
-                saveData();
-                refreshContent('tasks');
-                refreshContent('dashboard');
-            }
-        }
-
-        // Actions sur les projets
-        function editProject(projectId) {
-            const project = appData.projects.find(p => p.id === projectId);
-            if (project) {
-                const newName = prompt('Nouveau nom:', project.name);
-                if (newName) {
-                    project.name = newName;
-                    saveData();
-                    refreshContent('projects');
-                    updateProjectSelects();
-                }
-            }
-        }
-
-        function deleteProject(projectId) {
-            if (confirm('Supprimer ce projet ? (Les tâches associées seront conservées)')) {
-                appData.projects = appData.projects.filter(p => p.id !== projectId);
-                saveData();
-                refreshContent('projects');
-                updateProjectSelects();
-            }
-        }
-
-        // Actions sur les réunions
-        function deleteMeeting(meetingId) {
-            if (confirm('Supprimer cette réunion ?')) {
-                appData.meetings = appData.meetings.filter(m => m.id !== meetingId);
-                saveData();
-                refreshContent('meetings');
-            }
-        }
-
-        // Actions sur les emails
-        function markEmailSent(emailId) {
-            const email = appData.emails.find(e => e.id === emailId);
-            if (email) {
-                email.status = 'sent';
-                email.sentDate = new Date().toISOString();
-                saveData();
-                refreshContent('emails');
-                refreshContent('dashboard');
-            }
-        }
-
-        function deleteEmail(emailId) {
-            if (confirm('Supprimer cet email ?')) {
-                appData.emails = appData.emails.filter(e => e.id !== emailId);
-                saveData();
-                refreshContent('emails');
-                refreshContent('dashboard');
+                default: return '#a8e6cf';
             }
         }
 
@@ -877,17 +1749,17 @@
                     ...appData,
                     lastSave: new Date().toISOString()
                 };
-                window.localStorage.setItem('cosyProjectManager', JSON.stringify(dataToSave));
+                localStorage.setItem('vadhorProjectManager', JSON.stringify(dataToSave));
                 updateLastSaveTime();
             } catch (e) {
                 console.error('Erreur sauvegarde:', e);
-                alert('Erreur lors de la sauvegarde !');
+                showNotification('❌ Erreur lors de la sauvegarde');
             }
         }
 
         function loadData() {
             try {
-                const saved = window.localStorage.getItem('cosyProjectManager');
+                const saved = localStorage.getItem('vadhorProjectManager');
                 if (saved) {
                     const parsedData = JSON.parse(saved);
                     appData = {
@@ -903,7 +1775,7 @@
                 }
             } catch (e) {
                 console.error('Erreur chargement:', e);
-                alert('Erreur lors du chargement des données !');
+                showNotification('❌ Erreur lors du chargement');
             }
         }
 
@@ -930,24 +1802,21 @@
 
                 if (format === 'json') {
                     const dataStr = JSON.stringify(exportData, null, 2);
-                    downloadFile(dataStr, 'project-manager-backup.json', 'application/json');
+                    downloadFile(dataStr, 'vadhor-backup.json', 'application/json');
                 } else if (format === 'csv') {
                     const csvData = convertToCSV(exportData);
-                    downloadFile(csvData, 'project-manager-backup.csv', 'text/csv');
+                    downloadFile(csvData, 'vadhor-backup.csv', 'text/csv');
                 }
                 
-                alert('🎉 Export réussi !');
+                showNotification('🎉 Export réussi !');
             } catch (e) {
                 console.error('Erreur export:', e);
-                alert('Erreur lors de l\'export !');
+                showNotification('❌ Erreur lors de l\'export');
             }
         }
 
         function convertToCSV(data) {
-            let csv = '';
-            
-            // Export des projets
-            csv += 'TYPE,ID,NOM,DESCRIPTION,DATE,STATUT,PRIORITE,PROJET\n';
+            let csv = 'TYPE,ID,NOM,DESCRIPTION,DATE,STATUT,PRIORITE,PROJET\n';
             
             data.projects.forEach(project => {
                 csv += `PROJET,${project.id},"${project.name}","${project.type}","${project.created}","${project.status}",,\n`;
@@ -955,14 +1824,6 @@
             
             data.tasks.forEach(task => {
                 csv += `TACHE,${task.id},"${task.description}","","${task.created}","${task.completed ? 'TERMINE' : 'EN_COURS'}","${task.priority}","${task.project}"\n`;
-            });
-            
-            data.meetings.forEach(meeting => {
-                csv += `REUNION,${meeting.id},"${meeting.subject}","${meeting.participants.join(';')}","${meeting.date}","${meeting.status}",,\n`;
-            });
-            
-            data.emails.forEach(email => {
-                csv += `EMAIL,${email.id},"${email.subject}","${email.to}","${email.created}","${email.status}","${email.type}",\n`;
             });
             
             return csv;
@@ -985,7 +1846,7 @@
             const file = fileInput.files[0];
             
             if (!file) {
-                alert('Veuillez sélectionner un fichier !');
+                showNotification('📂 Veuillez sélectionner un fichier');
                 return;
             }
             
@@ -1006,17 +1867,12 @@
                         saveData();
                         updateProjectSelects();
                         refreshContent('dashboard');
-                        refreshContent('projects');
-                        refreshContent('tasks');
-                        refreshContent('meetings');
-                        refreshContent('emails');
-                        
-                        alert('🎉 Import réussi !');
+                        showNotification('🎉 Import réussi !');
                         fileInput.value = '';
                     }
                 } catch (e) {
                     console.error('Erreur import:', e);
-                    alert('Erreur lors de l\'import ! Vérifiez le format du fichier.');
+                    showNotification('❌ Erreur lors de l\'import');
                 }
             };
             
@@ -1024,9 +1880,9 @@
         }
 
         function clearAllData() {
-            if (confirm('⚠️ ATTENTION ! Cette action va supprimer TOUTES vos données. Êtes-vous sûr ?')) {
-                if (confirm('🚨 DERNIÈRE CHANCE ! Toutes vos données seront perdues définitivement !')) {
-                    window.localStorage.removeItem('cosyProjectManager');
+            if (confirm('⚠️ ATTENTION ! Cette action va vider complètement votre serre. Êtes-vous sûr ?')) {
+                if (confirm('🚨 DERNIÈRE CHANCE ! Toutes vos plantations seront perdues !')) {
+                    localStorage.removeItem('vadhorProjectManager');
                     appData = {
                         projects: [],
                         tasks: [],
@@ -1043,7 +1899,7 @@
                     refreshContent('emails');
                     updateLastSaveTime();
                     
-                    alert('🧹 Toutes les données ont été supprimées !');
+                    showNotification('🧹 Serre complètement nettoyée !');
                 }
             }
         }
@@ -1087,24 +1943,10 @@
                 }
             });
             
-            // Recherche dans les réunions
-            appData.meetings.forEach(meeting => {
-                if (meeting.subject.toLowerCase().includes(query)) {
-                    results.push(`📅 Réunion: ${meeting.subject}`);
-                }
-            });
-            
-            // Recherche dans les emails
-            appData.emails.forEach(email => {
-                if (email.subject.toLowerCase().includes(query) || email.to.toLowerCase().includes(query)) {
-                    results.push(`📧 Email: ${email.subject}`);
-                }
-            });
-            
             if (results.length > 0) {
-                alert('🔍 Résultats de recherche:\n\n' + results.join('\n'));
+                showNotification('🔍 Trouvé: ' + results[0]);
             } else {
-                alert('🤷‍♂️ Aucun résultat trouvé pour: ' + query);
+                showNotification('🤷‍♂️ Rien trouvé pour: ' + query);
             }
         }
 
@@ -1117,9 +1959,39 @@
             }, 300000); // Auto-save toutes les 5 minutes
         }
 
+        // Fonction d'édition projet
+        function editProject(projectId) {
+            const project = appData.projects.find(p => p.id === projectId);
+            if (project) {
+                const newName = prompt('Nouveau nom:', project.name);
+                if (newName) {
+                    project.name = newName;
+                    saveData();
+                    refreshContent('projects');
+                    updateProjectSelects();
+                    showNotification(`🌱 Projet renommé: ${newName}`);
+                }
+            }
+        }
+
+        // Animations CSS supplémentaires
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(additionalStyles);
+
         // Initialisation de l'application
         function initApp() {
-            console.log('🌿 Initialisation Project Manager Cosy...');
+            console.log('🌿 Initialisation Dashboard VadHor...');
             
             loadData();
             setupQuickSearch();
@@ -1127,35 +1999,16 @@
             updateProjectSelects();
             refreshContent('dashboard');
             
-            console.log('✅ Application prête !');
+            // Message de bienvenue
+            setTimeout(() => {
+                showNotification('🌿 Bienvenue dans votre Serre Tropicale VadHor !');
+            }, 1000);
+            
+            console.log('✅ Serre prête pour la productivité !');
         }
 
         // Démarrage de l'application
         document.addEventListener('DOMContentLoaded', initApp);
-
-        // Exemples de données par défaut (commenté pour la production)
-        /*
-        function loadSampleData() {
-            appData = {
-                projects: [
-                    { id: 1, name: 'Chatbot RH', type: 'Chatbot', status: 'active', created: new Date().toISOString() },
-                    { id: 2, name: 'Formation Teams', type: 'Formation', status: 'active', created: new Date().toISOString() }
-                ],
-                tasks: [
-                    { id: 1, description: 'Finaliser présentation chatbot', project: 'Chatbot RH', priority: 'urgent', completed: false, created: new Date().toISOString() },
-                    { id: 2, description: 'Préparer slides formation', project: 'Formation Teams', priority: 'high', completed: false, created: new Date().toISOString() }
-                ],
-                meetings: [
-                    { id: 1, subject: 'Réunion directeurs', date: new Date().toISOString(), participants: ['Directeur 1', 'Directeur 2'], status: 'planned', created: new Date().toISOString() }
-                ],
-                emails: [
-                    { id: 1, to: 'directeur@company.com', subject: 'Confirmation réunion', type: 'Confirmation', status: 'to_send', created: new Date().toISOString() }
-                ],
-                settings: {}
-            };
-            saveData();
-        }
-        */
     </script>
 </body>
 </html>
